@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "PostNotFound";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!
+                </h1>
+                <h2>
+                    404 Not Found
+                </h2>
+                <div>
+                    @ViewBag.Message
+                </div>
+                <a href="@Url.Action("Blog", "BlogPosts",new {id=1})">
+                    go to the first post
+                    <span class="sr-only">(current)</span>
+                </a>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,125 @@
+﻿@model NetC.JuniorDeveloperExam.Web.Models.Post
+@{
+    TempData["PostId"] = Model.Id;
+}
+
+<div class="col-lg-12">
+
+    <!-- Title -->
+    <h1 class="mt-4">@Model.Title</h1>
+
+    <hr>
+
+    <!-- Date/Time -->
+    <p>@Model.Date</p>
+
+    <hr>
+
+    <!-- Preview Image -->
+    <img class="img-fluid rounded" src="@Model.Image" alt="Top 5 Considerations for a Content-First Design Approach">
+
+    <hr>
+
+    <!-- Post Content -->
+    @Html.Raw(Model.HtmlContent)
+
+    <hr>
+
+    <!-- Blog post comment form -->
+    <div class="card my-4">
+        @{Html.RenderPartial("_CommentForm",
+           new NetC.JuniorDeveloperExam.Web.Models.Comment());
+        }
+    </div>
+
+    <div id="popupDiv" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Blog post comments -->
+    <div class="row">
+        <div class="col-md-12">
+            @{
+                if (Model.Comments != null)
+                {
+                    foreach (var comment in Model.Comments)
+                    {
+                        <div class="media">
+                            <img class="mr-3 rounded-circle" src="https://eu.ui-avatars.com/api/?name= @comment.Name" alt="@comment.Name" />
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-8 d-flex">
+                                        <h5>@comment.Name</h5> <span>- @comment.Date</span>
+                                    </div>
+
+                                </div>@comment.Message
+                                <div class="col-4">
+                                    <div class="pull-right reply">
+                                        @Html.ActionLink("reply", "Reply", new { postId = Model.Id, commentId = comment.Id }, new { htmlAttributes = new { @class = "btn-sm btn-outline-primary" } })
+                                    </div>
+                                </div>
+                                <!-- replies section-->
+                                @{ if (comment.Replies != null)
+                                    {
+                                        foreach (var reply in comment.Replies)
+                                        { <div class="media mt-4">
+                                                <a class="pr-3" href="#"><img class="rounded-circle" a src="https://eu.ui-avatars.com/api/?name= @reply.Name" alt="@reply.Name" /></a>
+                                                <div class="media-body">
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex">
+                                                            <h5>@reply.Name</h5> <span> -@reply.Date</span>
+                                                        </div>
+                                                    </div> @reply.Message
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                <br />
+                            </div>
+                        </div>
+                        <br />
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    @*<script>
+            openPopup = (event) =>
+            {
+                event.preventDefault();
+                   $('#popupDiv').show();
+
+                console.log(event.target.getAttribute("data-CommentId"));
+            }
+            //$.ajax({
+            //    type: 'GET',
+            //    url: '/Home/Save',
+            //    success: function (data) {
+            //        $('#popupDiv').html(data);
+            //        $('#popupDiv').show();
+            //    }
+            //});
+
+        </script>*@
+
+}
